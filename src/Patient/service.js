@@ -14,7 +14,7 @@ exports.createPatient = async (req, reply) => {
 
 exports.getPatientWithFilter = async (req, reply) => {
 	try {
-		const patients = Patient.findAll(
+		const patients = await Patient.findAll(
 			{
 				where: req.query,
 			}

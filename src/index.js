@@ -10,7 +10,7 @@ const sequelizeInstance = require('./dbConnection');
 
 (async () => {
   try {
-    fastify.register(require('fastify-swagger'), swagger.options);
+		fastify.register(require('fastify-swagger'), swagger.options);
     sequelizeInstance.query('EXEC sp_msforeachtable "ALTER TABLE ? NOCHECK CONSTRAINT all"')
       .then(function(){
           return sequelizeInstance.sync({ force: config.db.forceTableCreation });
@@ -22,7 +22,8 @@ const sequelizeInstance = require('./dbConnection');
           console.log('Database synchronised.');
       }, function(err){
           console.log(err);
-      });
+			});
+		fastify.register(require('./Patient'), {prefix: '/api'});
     await fastify.listen(config.port, config.serverHost);
     fastify.swagger();
     fastify.log.info(`Server is listening on ${fastify.server.address().port}`);
