@@ -1,6 +1,6 @@
 const {boomify} = require('boom');
 const Patient = require('./PatientModel');
-
+const decrypt = require('../constants/decrypt');
 exports.createPatient = async (req, reply) => {
 	try {
 		const patient = Patient.build(req.body.patient);
@@ -19,8 +19,13 @@ exports.getPatientWithFilter = async (req, reply) => {
 				where: req.query,
 			}
 		);
-
-		return {patients: patients.map(x => x.dataValues)};
+		
+		return {patients: patients.map(x => {
+			return {
+				...x.dataValues,
+				socialSecurityNumber: decrypt(x.dataValues.socialSecurityNumber),
+			}
+		})};
 	} catch (err) {
 		throw boomify(err);
 	}
@@ -31,18 +36,18 @@ exports.patchPatient = async (req, reply) => {
 		if(Object.entries(req.body.patient).length === 0){
       const patient = await Patient.findOne({
         where: {
-          id: req.params.id,
+          patientId: req.params.id,
         }
       });
 
       return {patient: patient.dataValues};
-    }
+		}
 
     const upatedPatientCount = await Patient.update(
       req.body.patient,
       {
         where: {
-          id: req.params.id,
+          patientId: req.params.id,
         },
         individualHooks: true,
       }
@@ -56,7 +61,7 @@ exports.patchPatient = async (req, reply) => {
 
     const updatedPatient = await Patient.findOne({
       where: {
-        id: req.params.id,
+        patientId: req.params.id,
       },
     });
 
@@ -70,7 +75,7 @@ exports.deletePatient = async (req, reply) => {
 	try {
 		const patientDeletedCount = await Patient.destroy({
 			where: {
-				id: req.params.id,
+				patientId: req.params.id,
 			},
 		});
 
