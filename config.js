@@ -8,7 +8,7 @@ module.exports = {
     connectionAcquisitionRate: 30000,
     databaseName: process.env.dbName || 'SafeMeds',
     username: process.env.adminUser || 'safemedsadmin@safemeds',
-    password: process.env.password || 'Sam4218222',
+    password: process.env.password || 'qweqweqweqwe',
     connectionIdleRate: 10000,
     port: 1433,
     //DO NOT TURN THIS TO TRUE YOU WILL DROP EVERY TABLE
