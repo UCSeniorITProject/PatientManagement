@@ -19,7 +19,7 @@ exports.getPatientWithFilter = async (req, reply) => {
 				where: req.query,
 			}
 		);
-		
+
 		return {patients: patients.map(x => {
 			return {
 				...x.dataValues,
