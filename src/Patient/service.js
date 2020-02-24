@@ -1,6 +1,7 @@
 const {boomify} = require('boom');
 const Patient = require('./PatientModel');
 const decrypt = require('../constants/decrypt');
+const encrypt = require('../constants/encrypt');
 exports.createPatient = async (req, reply) => {
 	try {
 		const patient = Patient.build(req.body.patient);
@@ -14,6 +15,10 @@ exports.createPatient = async (req, reply) => {
 
 exports.getPatientWithFilter = async (req, reply) => {
 	try {
+		if('socialSecurityNumber' in req.query){
+			req.query.socialSecurityNumber = encrypt(req.query.socialSecurityNumber);
+		}
+
 		const patients = await Patient.findAll(
 			{
 				where: req.query,
