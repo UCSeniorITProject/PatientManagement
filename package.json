@@ -21,8 +21,12 @@
     "crypto": "^1.0.1",
     "fastify": "^2.11.0",
     "fastify-swagger": "^2.5.0",
+    "pg": "^8.3.3",
     "qs": "^6.9.1",
     "sequelize": "^5.21.3",
     "tedious": "^8.0.1"
+  },
+  "devDependencies": {
+    "prettier": "2.1.2"
   }
 }
